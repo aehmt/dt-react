@@ -28,8 +28,8 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
-    socket.emit('draw', [ev.pageX, ev.pageY-55, this.state.color]);
-    let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-55]]
+    socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
+    let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
     
     this.setState({
       shapes
