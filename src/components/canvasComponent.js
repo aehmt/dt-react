@@ -2,6 +2,7 @@ import React from 'react'
 import DefaultShape from './defaultShape'
 import DefaultShapeDelete from './DefaultShapeDelete'
 import fetch from 'isomorphic-fetch'
+const socket = io();
 
 ///import other canvas elements as components or stateless functions
 
