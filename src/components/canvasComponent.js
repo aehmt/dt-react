@@ -22,8 +22,12 @@ export default class CanvasComponent extends React.Component {
 
   handleStateChange(newDrawState) {
     // debugger;
+    let shapes = [...this.state.shapes, newDrawState]
+    if (shapes.length > 40) {
+      shapes = shapes.slice(-40, shapes.length)
+    }
     this.setState({
-      shapes: [...this.state.shapes, newDrawState]
+      shapes
     })
   }
 
