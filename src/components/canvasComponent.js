@@ -3,10 +3,56 @@ import DefaultShape from './defaultShape'
 import DefaultShapeDelete from './defaultShapeDelete'
 import fetch from 'isomorphic-fetch'
 
+<<<<<<< HEAD
 const CanvasComponent = (props) => {
   let rendered;
     if (props.shapes.length <= 20) {
       rendered = props.shapes.map((shape, i) => <DefaultShape xCo={shape[0]} yCo={shape[1]} key={i}/>)
+=======
+///import other canvas elements as components or stateless functions
+
+export default class CanvasComponent extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      shapes: []
+    }
+    this.handleClick = this.handleClick.bind(this)
+    socket.on('connect', function() {
+      console.log('Connected!')
+    })
+    // debugger;
+    socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
+  }
+
+ handleStateChange(newDrawState) {
+    // debugger;
+    let shapes = [...this.state.shapes, newDrawState]
+    if (shapes.length > 40) {
+      shapes = shapes.slice(-40, shapes.length)
+    }
+    this.setState({
+      shapes
+    })
+  }
+
+  handleClick(ev){
+    ev.preventDefault();
+    socket.emit('draw', [ev.pageX, ev.pageY-55]);
+    let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-55]]
+
+    this.setState({
+      shapes
+    })
+    // console.log(this.state.shapes);
+  }
+
+
+render(){
+    let rendered;
+    if (this.state.shapes.length <= 20) {
+      rendered = this.state.shapes.map((shape, i) => <DefaultShape xCo={shape[0]} yCo={shape[1]} key={i}/>)
+>>>>>>> a9a3a48f2c85800aac3e24e7b5f5c617cdb6d672
     } else {
       rendered = props.shapes.map((shape, i) => {
         if (i < props.shapes.length - 20) {
