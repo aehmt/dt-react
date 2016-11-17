@@ -40,6 +40,7 @@
     "isomorphic-fetch": "^2.2.1",
     "open": "0.0.5",
     "react": "^0.14.8",
+    "react-color": "^2.4.3",
     "react-dom": "^0.14.8",
     "socket.io": "^1.5.1",
     "webpack": "^1.13.3",
