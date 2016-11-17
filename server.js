@@ -22,14 +22,13 @@ app.use(require('webpack-hot-middleware')(compiler));
 app.get('*', function(req, res) {
   res.sendFile(path.join( __dirname, './index.html'));
 });
-console.log(process.env);
 
 const server = app.listen(process.env.PORT || port, function(err) {
-  if (err) {
-    console.log(err);
-  } else {
-    open(`https://dt-react.herokuapp.com:${port}`);
-  }
+  // if (err) {
+  //   console.log(err);
+  // } else {
+  //   open(`http://localhost:${port}`);
+  // }
 });
 
 const io = require('socket.io')(server);
