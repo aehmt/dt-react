@@ -19,7 +19,7 @@ export default class CanvasComponent extends React.Component {
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
   }
 
-  handleStateChange(newDrawState) {
+ handleStateChange(newDrawState) {
     // debugger;
     let shapes = [...this.state.shapes, newDrawState]
     if (shapes.length > 40) {
