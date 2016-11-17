@@ -34,16 +34,17 @@ const server = app.listen(process.env.PORT || port, function(err) {
 const io = require('socket.io')(server);
 
 
- io.on('connection', (socket) => {
+ io.on('connect', (socket) => {
   console.log('a user connected');
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+  socket.on('draw', (drawCoords) => {
+    console.log('draw from client');
+    io.emit('draw', drawCoords);
   });
 });
 
- app.post('/draw', jsonParser, function(req, resp) {
-    console.log('in POST /draw')
-    console.log('request body:', req.body.drawCoords)
-    io.emit('draw event', req.body.drawCoords);
- })
+ // app.post('/draw', jsonParser, function(req, resp) {
+ //    console.log('in POST /draw')
+ //    console.log('request body:', req.body.drawCoords)
+ //
+ // })

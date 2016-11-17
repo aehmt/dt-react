@@ -12,8 +12,11 @@ export default class CanvasComponent extends React.Component {
       shapes: []
     }
     this.handleClick = this.handleClick.bind(this)
+    socket.on('connect', function() {
+      console.log('Connected!')
+    })
     // debugger;
-    socket.on('draw event', (newDrawState) => this.handleStateChange(newDrawState));
+    socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
   }
 
   handleStateChange(newDrawState) {
@@ -25,18 +28,7 @@ export default class CanvasComponent extends React.Component {
 
   handleClick(ev){
     ev.preventDefault();
-
-   fetch('/draw', {
-  //  fetch('http://localhost:8080/draw', {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        drawCoords: [ev.pageX, ev.pageY-55]
-      })
-    })
+    socket.emit('draw', [ev.pageX, ev.pageY-55]);
   }
 
   render(){
