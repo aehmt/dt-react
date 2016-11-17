@@ -33,7 +33,7 @@ const io = require('socket.io')(server);
 
 io.sockets.on('connect', (socket) => {
   console.log('a user connected');
-  let room;
+  var room;
   socket.on('subscribe', (data) => {
     socket.join(data.room)
     // console.log("joined room " + data.room)
