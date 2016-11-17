@@ -1,24 +1,49 @@
-const path = require('path')
-const express = require('express')
+var express = require('express')
+var webpack = require('webpack')
+var path = require('path')
+var bodyParser = require('body-parser')
+var config = require('./webpack.dev.config')
+var open = require('open')
 
-module.exports = {
-  app: function () {
-    const app = express()
-    const indexPath = path.join(__dirname, 'index.html')
-    const publicPath = express.static(path.join(__dirname, 'public'))
+const port = 8080;
+const app = express();
+const compiler = webpack(config);
 
-    app.use('/public', publicPath)
-    app.get('/', function (_, res) { res.sendFile(indexPath) })
-    app.set('port', process.env.PORT || 3000);
-    return app 
-    } 
-}
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+
+var jsonParser = bodyParser.json();
+app.use(jsonParser)
+
+app.use(require('webpack-hot-middleware')(compiler));
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join( __dirname, './index.html'));
+});
+
+const server = app.listen(port, function(err) {
+  if (err) {
+    console.log(err);
+  } else {
+    open(`http://localhost:${port}`);
+  }
+});
+
+const io = require('socket.io')(server);
 
 
-    // var server = require('http').createServer(app);
-    // var io = require('socket.io')(server);
-    // io.on('connection', (socket) => {
-    //   console.log('Client connected');
-    //   socket.on('disconnect', () => console.log('Client disconnected'));
-    // });
-    // server.listen(app.get('port'))
+ io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+ app.post('/draw', jsonParser, function(req, resp) {
+    console.log('in POST /draw')
+    console.log('request body:', req.body.drawCoords)
+    io.emit('draw event', req.body.drawCoords);
+ })
