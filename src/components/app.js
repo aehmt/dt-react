@@ -28,7 +28,7 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
-    socket.emit('draw', [ev.pageX, ev.pageY-55]);
+    socket.emit('draw', [ev.pageX, ev.pageY-55, this.state.color]);
     let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-55]]
     
     this.setState({
@@ -44,7 +44,7 @@ export default class App extends React.Component {
     return (
       <div>
         <h1>Change me!</h1>
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} compColor={this.state.color} />
+        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} /> 
       </div>
     )

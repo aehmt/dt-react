@@ -10,7 +10,7 @@ const CanvasComponent = (props) => {
     } else {
       rendered = props.shapes.map((shape, i) => {
         if (i < props.shapes.length - 20) {
-          return <DefaultShape xCo={shape[0]} yCo={shape[1]} key={i} color={props.compColor} />
+          return <DefaultShape xCo={shape[0]} yCo={shape[1]} key={i} color={shape[2]} />
         } else {
           return <DefaultShapeDelete xCo={shape[0]} yCo={shape[1]} key={i}/>
         }
