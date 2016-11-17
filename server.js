@@ -26,25 +26,24 @@ app.get('*', function(req, res) {
 const server = app.listen(process.env.PORT || port, function(err) {
   // if (err) {
   //   console.log(err);
-  // } else {
-  //   open(`http://localhost:${port}`);
   // }
 });
 
 const io = require('socket.io')(server);
 
-
- io.on('connect', (socket) => {
+io.sockets.on('connect', (socket) => {
   console.log('a user connected');
-
+  let room;
+  socket.on('subscribe', (data) => {
+    socket.join(data.room)
+    console.log("joined room " + data.room)
+    room = data.room;
+  })
+  socket.on('unsubscribe', (data) => {
+    socket.leave(data.room)
+  })
   socket.on('draw', (drawCoords) => {
     console.log('draw from client');
-    io.emit('draw', drawCoords);
+    io.to(room).emit('draw', drawCoords);
   });
 });
-
- // app.post('/draw', jsonParser, function(req, resp) {
- //    console.log('in POST /draw')
- //    console.log('request body:', req.body.drawCoords)
- //
- // })

@@ -7,14 +7,16 @@ const socket = io();
 ///import other canvas elements as components or stateless functions
 
 export default class CanvasComponent extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    let room = props.room
     this.state = {
       shapes: []
     }
     this.handleClick = this.handleClick.bind(this)
     socket.on('connect', function() {
       console.log('Connected!')
+      socket.emit("subscribe", {room: room})
     })
     // debugger;
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
