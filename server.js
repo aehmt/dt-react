@@ -23,7 +23,7 @@ app.get('*', function(req, res) {
   res.sendFile(path.join( __dirname, './index.html'));
 });
 
-const server = app.listen(port, function(err) {
+const server = app.listen(process.env.PORT || port, function(err) {
   if (err) {
     console.log(err);
   } else {
