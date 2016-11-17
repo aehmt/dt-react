@@ -4,14 +4,18 @@ import { ChromePicker } from 'react-color'
 const socket = io();
 
 export default class App extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    let room = props.room;
+
     this.state = {
       shapes: [],
       color: '#000000'
     }
+
     socket.on('connect', function() {
-      console.log('Connected!')
+      console.log('Connected!');
+      socket.emit("subscribe", {room: room});
     })
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
     this.handleClick = this.handleClick.bind(this)
@@ -30,7 +34,11 @@ export default class App extends React.Component {
     ev.preventDefault();
     socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
     let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> e3444ff6a994edad591b303e06617a28e83a9e3a
     this.setState({
       shapes
     })
@@ -43,9 +51,9 @@ export default class App extends React.Component {
   render () {
     return (
       <div>
-        <h1>Change me!</h1>
+        <h1>You are in room {this.props.room}</h1>
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
-        <ChromePicker color={this.state.color} onChange={this.handleColorChange} /> 
+        <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
     )
   }
