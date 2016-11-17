@@ -1,6 +1,6 @@
 import React from 'react'
 import DefaultShape from './defaultShape'
-import DefaultShapeDelete from './DefaultShapeDelete'
+import DefaultShapeDelete from './defaultShapeDelete'
 import fetch from 'isomorphic-fetch'
 const socket = io();
 
@@ -35,13 +35,13 @@ export default class CanvasComponent extends React.Component {
     ev.preventDefault();
     socket.emit('draw', [ev.pageX, ev.pageY-55]);
     let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-55]]
-    
+
     this.setState({
       shapes
     })
     // console.log(this.state.shapes);
   }
-  
+
 
 render(){
     let rendered;
