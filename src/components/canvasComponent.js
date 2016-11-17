@@ -26,7 +26,8 @@ export default class CanvasComponent extends React.Component {
   handleClick(ev){
     ev.preventDefault();
 
-   fetch('http://localhost:8080/draw', {
+   fetch('/draw', {
+  //  fetch('http://localhost:8080/draw', {
       method: 'post',
       headers: {
         'Accept': 'application/json',
