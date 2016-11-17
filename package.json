@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "node app.js",
+    "start": "node server.js",
     "clean": "rimraf public",
     "devbuild": "NODE_ENV=development webpack --config ./webpack.dev.config.js --progress --colors"
   },
@@ -24,10 +24,24 @@
     "javascript"
   ],
   "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-register": "^6.18.0",
+    "body-parser": "^1.15.2",
+    "es6-promise": "^4.0.5",
     "express": "^4.13.4",
+    "file-loader": "^0.8.5",
+    "fs": "0.0.1-security",
+    "isomorphic-fetch": "^2.2.1",
+    "open": "0.0.5",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
-    "socket.io": "1.5.1"
+    "socket.io": "^1.5.1",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.2"
   },
   "devDependencies": {
     "babel": "^6.5.2",
