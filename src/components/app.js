@@ -50,10 +50,13 @@ export default class App extends React.Component {
       startingData: imgData
     })
     let loadedImage = new Image()
+    let databaseImage = newImage()
     loadedImage.src = this.state.startingData
+    databaseImage.src = this.state.APILoad
     let canvas = document.getElementById('ourCanvas');
     let ctx = canvas.getContext('2d');
-    ctx.drawImage(loadedImage, 0, 0) 
+    ctx.drawImage(databaseImage, 0, 0)
+    ctx.drawImage(loadedImage, 0, 0)
   } 
   handleClick(ev){
     ev.preventDefault();
