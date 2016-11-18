@@ -11,6 +11,7 @@ export default class App extends React.Component {
     this.state = {
       shapes: [],
       color: '#000000',
+      APILoad: null,
       startingData: null
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
@@ -24,11 +25,15 @@ export default class App extends React.Component {
     }
   }
   componentWillMount() {
+    fetch(`https://dry-fortress-11373.herokuapp.com/api/v1/artworks/${this.props.params.roomId}`)
+      .then(res => res.json())
+      .then(json => this.setState({
+        APILoad: json.artwork.state})
+      )
     let room = this.props.room;
     socket.on('connect', function() {
       socket.emit("subscribe", {room: room})
     })
-    this.requestImage
   }
 
 
@@ -43,8 +48,8 @@ export default class App extends React.Component {
     })
   }
   sendLoad(){
-    let canvas = document.getelementbyid('ourcanvas');
-    let imgdata = canvas.todataurl()
+    let canvas = document.getElementById('ourCanvas');
+    let imgData = canvas.toDataURL()
     socket.emit('loadstuff', imgData)
     this.setState({startingData: imgData })
   }
@@ -52,6 +57,7 @@ export default class App extends React.Component {
     this.setState({
       startingData: imgData
     })
+    console.log(this.state)
     let loadedImage = new Image()
     loadedImage.src = this.state.startingData
     let canvas = document.getElementById('ourCanvas');
@@ -62,7 +68,6 @@ export default class App extends React.Component {
     ev.preventDefault();
     socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
     let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
-
     this.setState({
       shapes
     })
@@ -76,7 +81,7 @@ export default class App extends React.Component {
     return (
       <div>
         <h1>You are in room {this.props.room}</h1>
-        <SaveButton /> 
+        <SaveButton roomId={this.props.params.roomId}/> 
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
