@@ -34,11 +34,6 @@ export default class App extends React.Component {
     ev.preventDefault();
     socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
     let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> e3444ff6a994edad591b303e06617a28e83a9e3a
     this.setState({
       shapes
     })
