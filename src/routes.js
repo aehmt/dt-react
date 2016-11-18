@@ -7,6 +7,6 @@ import Lobby from './components/Lobby.js'
 export default (
   <Route path="/">
     <Route path='lobby' component={Lobby} />
-    <Route path='room/:roomId' component={App} />
+    <Route path='rooms/:roomId' component={App} />
 </Route>
 )
