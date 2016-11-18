@@ -1,7 +1,6 @@
 import React from 'react'
 import CanvasComponent from './canvasComponent'
 import { ChromePicker } from 'react-color'
-import SaveButton from './SaveButton'
 import {Rectangle, Circle, Ellipse, Line, Polyline, CornerBox, Triangle} from 'react-shapes';
 const socket = io();
 
@@ -11,12 +10,10 @@ export default class App extends React.Component {
     this.state = {
       shapes: [],
       color: '#000000',
-      startingData: null,
-      pickedShape: 'circle'
+      startingData: null
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
     this.handleClick = this.handleClick.bind(this)
-    this.pickShape = this.pickShape.bind(this)
     this.handleColorChange = this.handleColorChange.bind(this)
     this.getLoad = this.getLoad.bind(this)
     this.sendLoad = this.sendLoad.bind(this)
@@ -34,16 +31,16 @@ export default class App extends React.Component {
   }
   handleStateChange(newDrawState) {
     let shapes = [...this.state.shapes, newDrawState]
-    if (shapes.length > 2) {
-      shapes = shapes.slice(-2, shapes.length)
+    if (shapes.length > 40) {
+      shapes = shapes.slice(-40, shapes.length)
     }
     this.setState({
       shapes
     })
   }
   sendLoad(){
-    let canvas = document.getelementbyid('ourcanvas');
-    let imgdata = canvas.todataurl()
+    let canvas = document.getElementById('ourCanvas');
+    let imgData = canvas.toDataURL()
     socket.emit('loadstuff', imgData)
     this.setState({startingData: imgData })
   }
@@ -59,9 +56,8 @@ export default class App extends React.Component {
   } 
   handleClick(ev){
     ev.preventDefault();
-
-    socket.emit('draw', [ev.screenX, ev.screenY-200, this.state.color]);
-    let shapes = [...this.state.shapes, [ev.screenX, ev.screenY-200]]
+    socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
+    let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
 
     this.setState({
       shapes
@@ -72,34 +68,19 @@ export default class App extends React.Component {
       color: color.hex
     })
   }
-  pickShape(event) {
-    this.setState({
-      pickedShape: event.target.childNodes[0].tagName
-    })
-  }
-
   render () {
     return (
       <div>
         <h1>You are in room {this.props.room}</h1>
-        <SaveButton /> 
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
+        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
-        <span onClick={(event)=>this.pickShape(event)} id="rectangle">
-          <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="circle">
-          <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="ellipse">
-          <Ellipse rx={30} ry={15} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="line">
-          <Line x1={25} x2={55} y1={25} y2={55}  stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="triangle">
-          <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
+        <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
+        <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
+        <Ellipse rx={300} ry={100} fill={{color:'none'}} stroke={{color:'#E65243'}} strokeWidth={3} />
+        <Line x1={25} x2={35} y1={25} y2={35}  stroke={{color:'#E65243'}} strokeWidth={3} />
+        <Polyline points='25,25 25,350 500,350 500,500 305,250 20,15' fill={{color:'#2409ba'}} stroke={{color:'#E65243'}} strokeWidth={3} />
+        <CornerBox size={400} width={150} orientation='topLeft' fill={{color:'#2409ba'}} stroke={{color:'#E65243'}}strokeWidth={3} />
+        <Triangle width={150} height={150} fill={{color:'#2409ba'}} stroke={{color:'#E65243'}} strokeWidth={3} />
       </div>
     )
   }

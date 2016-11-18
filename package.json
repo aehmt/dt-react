@@ -42,6 +42,7 @@
     "react": "^0.14.8",
     "react-color": "^2.4.3",
     "react-dom": "^0.14.8",
+    "react-shapes": "^0.1.0",
     "socket.io": "^1.5.1",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
