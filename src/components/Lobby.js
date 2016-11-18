@@ -25,13 +25,14 @@ export default class Lobby extends React.Component {
     fetch(`${BASE_URL}`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({'artwork': {'editable': true}})})
     this.getRooms()
   }
+  
   render(){
     return (
       <div>
-        Available rooms: 
-        <ul> 
+        Available rooms:
+        <ul>
           {this.state.rooms.map(room => (<li key={room}><Link to={`/rooms/${room}`}>Room {room}</Link></li>))}
-        </ul> 
+        </ul>
         <button onClick={this.createRoom}>Make a room</button>
       </div>
     )
