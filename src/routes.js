@@ -1,8 +1,8 @@
-
 import React from 'react';
 import {Route, IndexRoute } from 'react-router';
 import App from './components/app.js'
 import Lobby from './components/Lobby.js'
+
 
 export default (
   <Route path="/">
