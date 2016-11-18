@@ -5,8 +5,10 @@ export default class SaveButton extends React.Component {
     let canvas = document.getElementById('ourCanvas');
     let imgdata = canvas.toDataURL()
     let data = {'artwork': {'editable': true, 'state': imgdata}}
-    fetch('https://dry-fortress-11373.herokuapp.com/api/v1/artworks', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)}) 
-   } 
+    fetch('https://dry-fortress-11373.herokuapp.com/api/v1/artworks', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)})
+      .done((res) => res.json())
+      .done((json) => console.log(res))  
+  } 
   render(){
     return (
       <div>
