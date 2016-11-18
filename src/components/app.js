@@ -1,6 +1,8 @@
 import React from 'react'
 import CanvasComponent from './canvasComponent'
 import { ChromePicker } from 'react-color'
+import SaveButton from './SaveButton'
+
 const socket = io();
 
 export default class App extends React.Component {
@@ -38,8 +40,8 @@ export default class App extends React.Component {
     })
   }
   sendLoad(){
-    let canvas = document.getElementById('ourCanvas');
-    let imgData = canvas.toDataURL()
+    let canvas = document.getelementbyid('ourcanvas');
+    let imgdata = canvas.todataurl()
     socket.emit('loadstuff', imgData)
     this.setState({startingData: imgData })
   }
@@ -71,6 +73,7 @@ export default class App extends React.Component {
     return (
       <div>
         <h1>You are in room {this.props.room}</h1>
+        <SaveButton /> 
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
