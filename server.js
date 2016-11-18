@@ -35,10 +35,9 @@ io.sockets.on('connect', (socket) => {
   console.log('a user connected');
   var room;
   socket.on('subscribe', (data) => {
-    io.to(room).emit('geteverything', {})
     room = data.room;
-    socket.join(data.room)
-    
+    io.to(room).emit('geteverything')
+    socket.join(data.room) 
   })
   socket.on('unsubscribe', (data) => {
     socket.leave(data.room)

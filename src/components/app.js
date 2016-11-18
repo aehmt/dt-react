@@ -12,24 +12,21 @@ export default class App extends React.Component {
       startingData: null
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
+    this.handleClick = this.handleClick.bind(this)
+    this.handleColorChange = this.handleColorChange.bind(this)
+    this.getLoad = this.getLoad.bind(this)
+    this.sendLoad = this.sendLoad.bind(this)
+    socket.on('geteverything', this.sendLoad)
+    if (!(this.state.startingData)){
+      socket.on('loadstuff', (data) => this.getLoad(data))
+    }
+  }
+  componentWillMount() {
     let room = this.props.room;
     socket.on('connect', function() {
       socket.emit("subscribe", {room: room})
     })
-    this.handleClick = this.handleClick.bind(this)
-    this.handleColorChange = this.handleColorChange.bind(this)
-    this.getLoad = this.getLoad.bind(this)
-    if (this.state.startingData) {
-      socket.on('geteverything', console.log('hello'))
-    }
-    socket.on('loadstuff', (data) => console.log(data))
-  }
-  componentDidMount() {
-      let loadedImage = new Image()
-      loadedImage.src = this.state.startingData
-      let canvas = document.getElementById('ourCanvas');
-      let ctx = canvas.getContext('2d');
-      ctx.drawImage(loadedImage, 0, 0) 
+    this.requestImage
   }
   handleStateChange(newDrawState) {
     let shapes = [...this.state.shapes, newDrawState]
@@ -41,17 +38,20 @@ export default class App extends React.Component {
     })
   }
   sendLoad(){
-    console.log('hello from sendload')
     let canvas = document.getElementById('ourCanvas');
     let imgData = canvas.toDataURL()
-    console.log(imgData)
     socket.emit('loadstuff', imgData)
+    this.setState({startingData: imgData })
   }
   getLoad(imgData){
-    console.log(imgData)
     this.setState({
       startingData: imgData
     })
+    let loadedImage = new Image()
+    loadedImage.src = this.state.startingData
+    let canvas = document.getElementById('ourCanvas');
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(loadedImage, 0, 0) 
   } 
   handleClick(ev){
     ev.preventDefault();
