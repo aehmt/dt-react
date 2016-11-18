@@ -21,6 +21,9 @@ export default class App extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleColorChange = this.handleColorChange.bind(this)
   }
+
+
+  
   handleStateChange(newDrawState) {
     let shapes = [...this.state.shapes, newDrawState]
     if (shapes.length > 40) {
