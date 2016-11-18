@@ -35,6 +35,11 @@ export default class App extends React.Component {
       socket.emit("subscribe", {room: room})
     })
   }
+  componentDidMount() {
+    if (this.state.startingData == null) {
+      
+    }
+  }
   handleStateChange(newDrawState) {
     let shapes = [...this.state.shapes, newDrawState]
     if (shapes.length > 40) {
@@ -54,7 +59,6 @@ export default class App extends React.Component {
     this.setState({
       startingData: imgData
     })
-    console.log(this.state)
     let loadedImage = new Image()
     loadedImage.src = this.state.startingData
     let canvas = document.getElementById('ourCanvas');
