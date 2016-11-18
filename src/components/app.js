@@ -78,7 +78,7 @@ export default class App extends React.Component {
     return (
       <div>
         <h1>You are in room {this.props.room}</h1>
-        <SaveButton /> 
+        <SaveButton roomId={this.props.params.roomId}/> 
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
