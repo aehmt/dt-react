@@ -10,10 +10,10 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       shapes: [],
-      color: '#000000',
+      color: '#333333',
       startingData: null,
-      pickedShape: 'circle'
       APILoad: null,
+      pickedShape: 'circle'
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
     this.handleClick = this.handleClick.bind(this)
@@ -55,7 +55,6 @@ export default class App extends React.Component {
     this.setState({
       startingData: imgData
     })
-    console.log(this.state)
     let loadedImage = new Image()
     let databaseImage = new Image()
     loadedImage.src = this.state.startingData
@@ -89,7 +88,7 @@ export default class App extends React.Component {
       <div>
         <h1>You are in room {this.props.params.roomId}</h1>
         <SaveButton roomId={this.props.params.roomId}/>
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
+        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
         <span onClick={(event)=>this.pickShape(event)} id="rectangle">
           <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
