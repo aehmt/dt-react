@@ -37,7 +37,7 @@ io.sockets.on('connect', (socket) => {
   socket.on('subscribe', (data) => {
     room = data.room;
     io.to(room).emit('geteverything')
-    socket.join(data.room) 
+    socket.join(data.room)
   })
   socket.on('unsubscribe', (data) => {
     socket.leave(data.room)
@@ -47,5 +47,8 @@ io.sockets.on('connect', (socket) => {
   })
   socket.on('loadstuff', (base64) => {
     io.to(room).emit('loadstuff', base64)
+  })
+  socket.on('message', (message) => {
+    io.to(room).emit('message', message);
   })
 });

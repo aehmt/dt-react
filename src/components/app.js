@@ -9,13 +9,16 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      currentMessage: 'meow',
       shapes: [],
       color: '#000000',
       APILoad: null,
       startingData: null
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
+    socket.on('message', (msg) => this.handleMessageChange(msg));
     this.handleClick = this.handleClick.bind(this)
+    this.handleMessage = this.handleMessage.bind(this)
     this.handleColorChange = this.handleColorChange.bind(this)
     this.getLoad = this.getLoad.bind(this)
     this.sendLoad = this.sendLoad.bind(this)
@@ -41,6 +44,11 @@ export default class App extends React.Component {
     }
     this.setState({
       shapes
+    })
+  }
+  handleMessageChange(msg){
+    this.setState({
+      currentMessage: msg
     })
   }
   sendLoad(){
@@ -76,11 +84,29 @@ export default class App extends React.Component {
       color: color.hex
     })
   }
+
+  handleMessage(ev){
+    ev.preventDefault();
+    let newMessage = ev.target.value;
+    socket.emit('message', newMessage);
+    // console.log(newMessage)
+    // this.setState({
+    //   currentMessage: newMessage
+    // })
+    // debugger;
+  }
+
   render () {
     return (
       <div>
         <h1>You are in room {this.props.params.roomId}</h1>
         <SaveButton roomId={this.props.params.roomId}/>
+        <div id="message" onChange = {this.handleMessage}>
+          <form id="messageForm">
+            <input type="text" />
+          </form>
+          {this.state.currentMessage}
+        </div>
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
