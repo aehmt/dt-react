@@ -62,7 +62,7 @@ export default class App extends React.Component {
     let ctx = canvas.getContext('2d');
     ctx.drawImage(databaseImage, 0, 0)
     ctx.drawImage(loadedImage, 0, 0)
-  } 
+  }
   handleClick(ev){
     ev.preventDefault();
     socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
@@ -79,8 +79,8 @@ export default class App extends React.Component {
   render () {
     return (
       <div>
-        <h1>You are in room {this.props.room}</h1>
-        <SaveButton roomId={this.props.params.roomId}/> 
+        <h1>You are in room {this.props.params.roomId}</h1>
+        <SaveButton roomId={this.props.params.roomId}/>
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
