@@ -51,7 +51,7 @@ class CustomPicker extends React.Component {
           </div>
          { this.state.displayColorPicker ? <div style={ styles.popover }>
            <div style={ styles.cover } onClick={ this.handleClose }/>
-           <SketchPicker color={ this.state.color } onChange={ this.props.onChange } />
+           <SketchPicker color={ this.props.color } onChangeComplete={ this.props.onChange } />
          </div> : null }
       </div>
     )
