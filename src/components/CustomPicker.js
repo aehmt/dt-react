@@ -7,7 +7,7 @@ class CustomPicker extends React.Component {
     super(props)
     this.state = {
       displayColorPicker: false,
-      color: this.props.color
+      color: props.color
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
@@ -43,15 +43,15 @@ class CustomPicker extends React.Component {
       },
     });
 
-    return (
-      <div>
-        <div style={ styles.swatch } onClick={ this.handleClick }>
-          <div style={ styles.color } />
-        </div>
-        { this.state.displayColorPicker ? <div style={ styles.popover }>
-          <div style={ styles.cover } onClick={ this.handleClose }/>
-          <SketchPicker color={ this.state.color } onChange={ this.props.onChange } />
-        </div> : null }
+ return (
+       <div>
+          <div style={ styles.swatch } onClick={ this.handleClick }>
+            <div style={ styles.color } />
+          </div>
+         { this.state.displayColorPicker ? <div style={ styles.popover }>
+           <div style={ styles.cover } onClick={ this.handleClose }/>
+           <SketchPicker color={ this.state.color } onChange={ this.props.onChange } />
+         </div> : null }
 
       </div>
     )
