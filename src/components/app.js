@@ -77,9 +77,11 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
+    var a = ev
+    debugger;
     if (ev.ctrlKey) {
-       socket.emit('draw', [ev.clientX-20, ev.clientY-340, this.state.color]);
-       let shapes = [...this.state.shapes, [ev.clientX-20, ev.clientY-340]]
+       socket.emit('draw', [ev.pageX-20, ev.pageY-340, this.state.color]);
+       let shapes = [...this.state.shapes, [ev.pageX-20, ev.pageY-340]]
        this.setState({
          shapes
        })
@@ -96,11 +98,10 @@ export default class App extends React.Component {
       this.setState({
         pickedShape: "star"
       })
-    } else {
-      this.setState({
-        pickedShape: event.target.childNodes[0].tagName
-      })
     }
+    this.setState({
+      pickedShape: event.target.childNodes[0].tagName
+    })
 
   }
 
