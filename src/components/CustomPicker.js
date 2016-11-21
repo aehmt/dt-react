@@ -53,8 +53,6 @@ class CustomPicker extends React.Component {
            <div style={ styles.cover } onClick={ this.handleClose }/>
            <SketchPicker color={ this.state.color } onChange={ this.props.onChange } />
          </div> : null }
->>>>>>> cosmetics
-
       </div>
     )
   }
