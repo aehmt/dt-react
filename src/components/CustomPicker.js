@@ -43,12 +43,17 @@ class CustomPicker extends React.Component {
         },
       },
     });
-    return (
-          <div>
-        <div style={ styles.swatch } onClick={ this.handleClick }>
-          <div style={ styles.color } />
-        </div>
-        { this.state.displayColorPicker ? <SketchPicker color={ this.state.color } onChange={ this.props.onChange } /> : null }
+
+ return (
+       <div>
+          <div style={ styles.swatch } onClick={ this.handleClick }>
+            <div style={ styles.color } />
+          </div>
+         { this.state.displayColorPicker ? <div style={ styles.popover }>
+           <div style={ styles.cover } onClick={ this.handleClose }/>
+           <SketchPicker color={ this.state.color } onChange={ this.props.onChange } />
+         </div> : null }
+>>>>>>> cosmetics
 
       </div>
     )
