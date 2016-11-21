@@ -86,6 +86,7 @@ export default class App extends React.Component {
         <div className="wrapper">
           <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
       <div id="colorposition"> 
+        Brush color:
         <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
       </div>
