@@ -107,13 +107,15 @@ export default class App extends React.Component {
         <SaveButton roomId={this.props.params.roomId}/>
         <div className="wrapper">
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/> 
+      <div id="colorposition"> 
         <div id="message" onChange = {this.handleMessage}>
           <form id="messageForm">
             <input type="text" />
           </form>
           {this.state.currentMessage}
         </div>
-        <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
+        Brush color:
+        <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
         <span onClick={(event)=>this.pickShape(event)} id="rectangle">
           <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
         </span>
@@ -129,10 +131,6 @@ export default class App extends React.Component {
         <span onClick={(event)=>this.pickShape(event)} id="triangle">
           <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
         </span>
-          <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
-      <div id="colorposition"> 
-        Brush color:
-        <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
       </div>
       </div>
