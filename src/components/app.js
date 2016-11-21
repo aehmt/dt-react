@@ -2,6 +2,7 @@ import React from 'react'
 import CanvasComponent from './canvasComponent'
 import { ChromePicker } from 'react-color'
 import SaveButton from './SaveButton'
+import CustomPicker from './CustomPicker'
 
 const socket = io();
 
@@ -85,7 +86,7 @@ export default class App extends React.Component {
         <div className="wrapper">
           <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
       <div id="colorposition"> 
-        <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
+        <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
       </div>
       </div>
       </div>
