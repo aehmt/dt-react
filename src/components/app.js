@@ -4,6 +4,7 @@ import { ChromePicker } from 'react-color'
 import {Rectangle, Circle, Ellipse, Line, Polyline, CornerBox, Triangle} from 'react-shapes';
 import SaveButton from './SaveButton'
 import Shapes from './shapes'
+import CustomPicker from './CustomPicker'
 
 const socket = io();
 
@@ -13,7 +14,7 @@ export default class App extends React.Component {
     this.state = {
       currentMessage: 'meow',
       shapes: [],
-      color: '#333333',
+      color: '#995599',
       APILoad: null,
       pickedShape: 'circle',
       startingData: null
@@ -77,18 +78,19 @@ export default class App extends React.Component {
   handleClick(ev){
     ev.preventDefault();
     if (ev.ctrlKey) {
-      socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
-      let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
-      this.setState({
-        shapes
-      })
-    }
+       socket.emit('draw', [ev.clientX, ev.clientY-140, this.state.color]);
+       let shapes = [...this.state.shapes, [ev.clientX, ev.clientY-140]]
+       this.setState({
+         shapes
+       })
+     }
   }
   handleColorChange(color, event) {
     this.setState({
       color: color.hex
     })
   }
+
   pickShape(event) {
     if (event.target.id === "star") {
       this.setState({
@@ -100,6 +102,7 @@ export default class App extends React.Component {
     })
   }
 
+
   handleMessage(ev){
     ev.preventDefault();
     let newMessage = ev.target.value;
@@ -108,17 +111,22 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <div>
-        <h1>You are in room {this.props.params.roomId}</h1>
+      <div id="inroom">
+        <h2>Now drawing in: Room {this.props.params.roomId}</h2>
+        <p>To draw, press the ctrl key. Click on the desired shape to draw in that shape. </p>
         <SaveButton roomId={this.props.params.roomId}/>
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/> 
-        <div id="message" onChange = {this.handleMessage}>
-          <form id="messageForm">
-            <input type="text" />
-          </form>
-          {this.state.currentMessage}
+
+        <div className="wrapper">
+        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
+      <div id="colorposition">
+        <div id="message" onKeyUp = {this.handleMessage}>
+          <textarea id="messageForm" rows="2" cols="40" />
+          <div id="current" >
+            {this.state.currentMessage}
+          </div>
         </div>
-        <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
+        Brush color:
+        <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
         <span onClick={(event)=>this.pickShape(event)} id="rectangle">
           <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
         </span>
@@ -131,6 +139,8 @@ export default class App extends React.Component {
         <span onClick={(event)=>this.pickShape(event)} id="triangle">
           <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
         </span>
+      </div>
+      </div>
       </div>
     )
   }
