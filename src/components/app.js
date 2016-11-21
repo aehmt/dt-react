@@ -3,6 +3,7 @@ import CanvasComponent from './canvasComponent'
 import { ChromePicker } from 'react-color'
 import {Rectangle, Circle, Ellipse, Line, Polyline, CornerBox, Triangle} from 'react-shapes';
 import SaveButton from './SaveButton'
+import CustomPicker from './CustomPicker'
 
 const socket = io();
 
@@ -75,13 +76,11 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
-    if (ev.ctrlKey) {
-      socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
-      let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
-      this.setState({
-        shapes
-      })
-    }
+    socket.emit('draw', [ev.pageX-33, ev.pageY-350, this.state.color]);
+    let shapes = [...this.state.shapes, [ev.pageX-33, ev.pageY-350]]
+    this.setState({
+      shapes
+    })
   }
   handleColorChange(color, event) {
     this.setState({
@@ -102,17 +101,21 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <div>
-        <h1>You are in room {this.props.params.roomId}</h1>
+      <div id="inroom">
+        <h2>Now drawing in: Room {this.props.params.roomId}</h2>
+        <p>To draw, press the ctrl key. Click on the desired shape to draw in that shape. </p> 
         <SaveButton roomId={this.props.params.roomId}/>
+        <div className="wrapper">
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/> 
+      <div id="colorposition"> 
         <div id="message" onChange = {this.handleMessage}>
           <form id="messageForm">
             <input type="text" />
           </form>
           {this.state.currentMessage}
         </div>
-        <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
+        Brush color:
+        <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
         <span onClick={(event)=>this.pickShape(event)} id="rectangle">
           <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
         </span>
@@ -128,6 +131,8 @@ export default class App extends React.Component {
         <span onClick={(event)=>this.pickShape(event)} id="triangle">
           <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
         </span>
+      </div>
+      </div>
       </div>
     )
   }

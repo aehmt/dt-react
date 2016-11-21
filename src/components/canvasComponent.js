@@ -20,7 +20,7 @@ const CanvasComponent = (props) => {
     }
     return (
       <div id="painting">
-        <canvas onMouseMove={props.onMove} id="ourCanvas" width="700" height="400" style={{backgroundColor: '#AAAAAA', borderRadius: 10, borderWidth: 0.5, borderColor: '#d6d7da'}}>
+        <canvas onMouseMove={props.onMove} id="ourCanvas" width="925" height="500" style={{backgroundColor: '#AAAAAA', borderRadius: 10, borderWidth: 0.5, borderColor: '#d6d7da'}}>
           {rendered}
         </canvas>
       </div>
