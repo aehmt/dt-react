@@ -13,10 +13,12 @@ export default class App extends React.Component {
       color: '#333333',
       startingData: null,
       APILoad: null,
-      pickedShape: 'circle'
+      pickedShape: 'circle',
+      space: false
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
     this.handleClick = this.handleClick.bind(this)
+    this.handleSpace = this.handleSpace.bind(this)
     this.pickShape = this.pickShape.bind(this)
     this.handleColorChange = this.handleColorChange.bind(this)
     this.getLoad = this.getLoad.bind(this)
@@ -66,15 +68,25 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
-    socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
-    let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
-    this.setState({
-      shapes
-    })
+    if (ev.ctrlKey) {
+      socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
+      let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
+      this.setState({
+        shapes
+      })
+    }
   }
   handleColorChange(color, event) {
     this.setState({
       color: color.hex
+    })
+  }
+  handleSpace(ev){
+    ev.preventDefault();
+    const tmp = this.state.space;
+    const state = !tmp
+    this.setState({
+      space: state
     })
   }
   pickShape(event) {
@@ -88,7 +100,7 @@ export default class App extends React.Component {
       <div>
         <h1>You are in room {this.props.params.roomId}</h1>
         <SaveButton roomId={this.props.params.roomId}/>
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
+        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/> 
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
         <span onClick={(event)=>this.pickShape(event)} id="rectangle">
           <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
