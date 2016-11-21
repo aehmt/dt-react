@@ -13,7 +13,7 @@ export default class App extends React.Component {
     this.state = {
       currentMessage: 'meow',
       shapes: [],
-      color: '#333333',
+      color: '#995599',
       APILoad: null,
       pickedShape: 'circle',
       startingData: null
@@ -76,11 +76,13 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
-    socket.emit('draw', [ev.pageX-33, ev.pageY-350, this.state.color]);
-    let shapes = [...this.state.shapes, [ev.pageX-33, ev.pageY-350]]
-    this.setState({
-      shapes
-    })
+    if (ev.ctrlKey) {
+       socket.emit('draw', [ev.clientX, ev.clientY-140, this.state.color]);
+       let shapes = [...this.state.shapes, [ev.clientX, ev.clientY-140]]
+       this.setState({
+         shapes
+       })
+     }
   }
   handleColorChange(color, event) {
     this.setState({
