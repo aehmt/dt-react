@@ -33,6 +33,7 @@ class CustomPicker extends React.Component {
           borderRadius: '1px',
           boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
           cursor: 'pointer',
+          maxWidth: '40px'
         },
         popover: {
           zIndex: '2',
@@ -42,16 +43,12 @@ class CustomPicker extends React.Component {
         },
       },
     });
-
     return (
-      <div>
+          <div>
         <div style={ styles.swatch } onClick={ this.handleClick }>
           <div style={ styles.color } />
         </div>
-        { this.state.displayColorPicker ? <div style={ styles.popover }>
-          <div style={ styles.cover } onClick={ this.handleClose }/>
-          <SketchPicker color={ this.state.color } onChange={ this.props.onChange } />
-        </div> : null }
+        { this.state.displayColorPicker ? <SketchPicker color={ this.state.color } onChange={ this.props.onChange } /> : null }
 
       </div>
     )
