@@ -49,6 +49,6 @@ io.sockets.on('connect', (socket) => {
     io.to(room).emit('loadstuff', base64)
   })
   socket.on('message', (message) => {
-    io.to(room).emit('message', message);
-  })
+   io.to(room).emit('message', message);
+ })
 });
