@@ -1,3 +1,103 @@
-h1 {
-  color: blue;
+#header {
+  text-align: center;
+}
+
+#header h1 {
+  font-size: 76px;
+  font-family: 'Amatica SC', cursive;
+  line-height: 100%;
+  font-weight: normal;
+}
+
+#enter {
+  padding-top: 66px;
+  text-align: center;
+  font-family: 'Cabin Sketch';
+  vertical-align: middle;
+  font-size: 28px;
+}
+
+#lobby {
+  text-align: center;
+  font-family: 'Cabin Sketch';
+  vertical-align: middle;
+  font-size: 20px;
+}
+
+#lobby ul {
+  list-style-type: none;
+  text-align: center;
+}
+
+#lobby li {
+  margin-left: -30px;
+}
+
+#makeroom {
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+hr {
+    height: 30px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+    max-width: 450px;
+}
+
+hr:before { /* Not really supposed to work, but does */
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+}
+
+button {
+  font-family: 'Cabin Sketch';
+  font-size: 20px;
+  border: 1px outset blue;
+  background-color: lightBlue;
+  cursor:pointer;
+}
+
+#lobby button {
+  margin-top: 25px;
+
+}
+
+button:hover {
+   background-color: blue;
+   color:white;
+}
+
+#inroom {
+  text-align: center;
+  font-family: 'Cabin Sketch';
+  font-weight: normal;
+}
+
+#inroom h2 {
+  font-size: 25px;
+}
+
+#inroom p {
+  font-size: 20px;
+}
+
+#inroom button {
+  margin-bottom: 20px;
+}
+
+.wrapper {
+  overflow: hidden;
+}
+
+#painting {
+  float: left;
 }

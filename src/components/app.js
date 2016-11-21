@@ -78,11 +78,14 @@ export default class App extends React.Component {
   }
   render () {
     return (
-      <div>
-        <h1>You are in room {this.props.params.roomId}</h1>
+      <div id="inroom">
+        <h2>Now drawing in: Room {this.props.params.roomId}</h2>
+        <p>To draw, press the ctrl key. Click on the desired shape to draw in that shape. </p> 
         <SaveButton roomId={this.props.params.roomId}/>
+        <div className="wrapper">
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
+      </div>
       </div>
     )
   }
