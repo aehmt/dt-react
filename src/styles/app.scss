@@ -96,8 +96,14 @@ button:hover {
 
 .wrapper {
   overflow: hidden;
+  padding: 30px;
 }
 
 #painting {
   float: left;
+}
+
+#colorposition {
+  float: left;
+  padding-left: 50px;
 }

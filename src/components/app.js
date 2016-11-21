@@ -65,8 +65,8 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
-    socket.emit('draw', [ev.pageX, ev.pageY-75, this.state.color]);
-    let shapes = [...this.state.shapes, [ev.pageX, ev.pageY-75]]
+    socket.emit('draw', [ev.pageX-33, ev.pageY-350, this.state.color]);
+    let shapes = [...this.state.shapes, [ev.pageX-33, ev.pageY-350]]
     this.setState({
       shapes
     })
@@ -83,8 +83,10 @@ export default class App extends React.Component {
         <p>To draw, press the ctrl key. Click on the desired shape to draw in that shape. </p> 
         <SaveButton roomId={this.props.params.roomId}/>
         <div className="wrapper">
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
+          <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
+      <div id="colorposition"> 
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
+      </div>
       </div>
       </div>
     )
