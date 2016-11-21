@@ -2,22 +2,23 @@ import React from 'react'
 import CanvasComponent from './canvasComponent'
 import { ChromePicker } from 'react-color'
 import SaveButton from './SaveButton'
-import {Rectangle, Circle, Ellipse, Line, Polyline, CornerBox, Triangle} from 'react-shapes';
+
 const socket = io();
 
 export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      currentMessage: 'meow',
       shapes: [],
-      color: '#333333',
-      startingData: null,
+      color: '#000000',
       APILoad: null,
-      pickedShape: 'circle'
+      startingData: null
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
+    socket.on('message', (msg) => this.handleMessageChange(msg));
     this.handleClick = this.handleClick.bind(this)
-    this.pickShape = this.pickShape.bind(this)
+    this.handleMessage = this.handleMessage.bind(this)
     this.handleColorChange = this.handleColorChange.bind(this)
     this.getLoad = this.getLoad.bind(this)
     this.sendLoad = this.sendLoad.bind(this)
@@ -38,11 +39,16 @@ export default class App extends React.Component {
   }
   handleStateChange(newDrawState) {
     let shapes = [...this.state.shapes, newDrawState]
-    if (shapes.length > 2) {
-      shapes = shapes.slice(-2, shapes.length)
+    if (shapes.length > 40) {
+      shapes = shapes.slice(-40, shapes.length)
     }
     this.setState({
       shapes
+    })
+  }
+  handleMessageChange(msg){
+    this.setState({
+      currentMessage: msg
     })
   }
   sendLoad(){
@@ -55,6 +61,7 @@ export default class App extends React.Component {
     this.setState({
       startingData: imgData
     })
+    console.log(this.state)
     let loadedImage = new Image()
     let databaseImage = new Image()
     loadedImage.src = this.state.startingData
@@ -77,10 +84,16 @@ export default class App extends React.Component {
       color: color.hex
     })
   }
-  pickShape(event) {
-    this.setState({
-      pickedShape: event.target.childNodes[0].tagName
-    })
+
+  handleMessage(ev){
+    ev.preventDefault();
+    let newMessage = ev.target.value;
+    socket.emit('message', newMessage);
+    // console.log(newMessage)
+    // this.setState({
+    //   currentMessage: newMessage
+    // })
+    // debugger;
   }
 
   render () {
@@ -88,23 +101,14 @@ export default class App extends React.Component {
       <div>
         <h1>You are in room {this.props.params.roomId}</h1>
         <SaveButton roomId={this.props.params.roomId}/>
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
+        <div id="message" onChange = {this.handleMessage}>
+          <form id="messageForm">
+            <input type="text" />
+          </form>
+          {this.state.currentMessage}
+        </div>
+        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
-        <span onClick={(event)=>this.pickShape(event)} id="rectangle">
-          <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="circle">
-          <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="ellipse">
-          <Ellipse rx={30} ry={15} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="line">
-          <Line x1={25} x2={55} y1={25} y2={55}  stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="triangle">
-          <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
       </div>
     )
   }
