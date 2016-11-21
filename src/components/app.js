@@ -96,10 +96,12 @@ export default class App extends React.Component {
       this.setState({
         pickedShape: "star"
       })
+    } else {
+      this.setState({
+        pickedShape: event.target.childNodes[0].tagName
+      })
     }
-    this.setState({
-      pickedShape: event.target.childNodes[0].tagName
-    })
+
   }
 
 
