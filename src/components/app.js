@@ -20,9 +20,6 @@ export default class App extends React.Component {
     this.getLoad = this.getLoad.bind(this)
     this.sendLoad = this.sendLoad.bind(this)
     socket.on('geteverything', this.sendLoad)
-    if (!(this.state.startingData)){
-      socket.on('loadstuff', (data) => this.getLoad(data))
-    }
   }
   componentWillMount() {
     fetch(`https://dry-fortress-11373.herokuapp.com/api/v1/artworks/${this.props.params.roomId}`)
@@ -30,14 +27,13 @@ export default class App extends React.Component {
       .then(json => this.setState({
         APILoad: json.artwork.state})
       )
-    let room = this.props.room;
+    let room = this.props.params.roomId;
     socket.on('connect', function() {
       socket.emit("subscribe", {room: room})
     })
+    socket.emit('loadstuff')
+    socket.on('loadstuff', (data) => this.getLoad(data))
   }
-
-
-  
   handleStateChange(newDrawState) {
     let shapes = [...this.state.shapes, newDrawState]
     if (shapes.length > 40) {
@@ -59,7 +55,7 @@ export default class App extends React.Component {
     })
     console.log(this.state)
     let loadedImage = new Image()
-    let databaseImage = newImage()
+    let databaseImage = new Image()
     loadedImage.src = this.state.startingData
     databaseImage.src = this.state.APILoad
     let canvas = document.getElementById('ourCanvas');
