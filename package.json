@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "npm run clean && npm run devbuild && node server.js",
+    "start": "node server.js",
     "clean": "rimraf public",
     "devbuild": "NODE_ENV=development webpack --config ./webpack.dev.config.js --progress --colors"
   },
