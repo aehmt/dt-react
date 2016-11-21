@@ -78,8 +78,8 @@ export default class App extends React.Component {
   handleClick(ev){
     ev.preventDefault();
     if (ev.ctrlKey) {
-       socket.emit('draw', [ev.clientX, ev.clientY-140, this.state.color]);
-       let shapes = [...this.state.shapes, [ev.clientX, ev.clientY-140]]
+       socket.emit('draw', [ev.clientX-20, ev.clientY-340, this.state.color]);
+       let shapes = [...this.state.shapes, [ev.clientX-20, ev.clientY-340]]
        this.setState({
          shapes
        })
