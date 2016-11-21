@@ -35,14 +35,17 @@ io.sockets.on('connect', (socket) => {
   console.log('a user connected');
   var room;
   socket.on('subscribe', (data) => {
-    socket.join(data.room)
-    // console.log("joined room " + data.room)
     room = data.room;
+    io.to(room).emit('geteverything')
+    socket.join(data.room) 
   })
   socket.on('unsubscribe', (data) => {
     socket.leave(data.room)
   })
   socket.on('draw', (drawCoords) => {
     io.to(room).emit('draw', drawCoords);
-  });
+  })
+  socket.on('loadstuff', (base64) => {
+    io.to(room).emit('loadstuff', base64)
+  })
 });
