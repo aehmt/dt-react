@@ -5,7 +5,6 @@ import fetch from 'isomorphic-fetch'
 
 const CanvasComponent = (props) => { 
     
-  
     var rendered;
     if (props.shapes.length <= 20) {
       rendered = props.shapes.map((shape, i) => <DefaultShape xCo={shape[0]} yCo={shape[1]} color={shape[2]} key={i} pickedShape={props.pickedShape}/>)

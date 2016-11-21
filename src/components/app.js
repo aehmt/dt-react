@@ -3,6 +3,7 @@ import CanvasComponent from './canvasComponent'
 import { ChromePicker } from 'react-color'
 import {Rectangle, Circle, Ellipse, Line, Polyline, CornerBox, Triangle} from 'react-shapes';
 import SaveButton from './SaveButton'
+import Shapes from './shapes'
 
 const socket = io();
 
@@ -89,6 +90,11 @@ export default class App extends React.Component {
     })
   }
   pickShape(event) {
+    if (event.target.id === "star") {
+      this.setState({
+        pickedShape: "star"
+      })
+    }
     this.setState({
       pickedShape: event.target.childNodes[0].tagName
     })
@@ -119,11 +125,8 @@ export default class App extends React.Component {
         <span onClick={(event)=>this.pickShape(event)} id="circle">
           <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
         </span>
-        <span onClick={(event)=>this.pickShape(event)} id="ellipse">
-          <Ellipse rx={30} ry={15} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
         <span onClick={(event)=>this.pickShape(event)} id="line">
-          <Line x1={25} x2={55} y1={25} y2={55}  stroke={{color:this.state.color}} strokeWidth={2} />
+          <Shapes color={this.state.color} />
         </span>
         <span onClick={(event)=>this.pickShape(event)} id="triangle">
           <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
