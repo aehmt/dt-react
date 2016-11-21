@@ -1,29 +1,31 @@
 import React from 'react'
 import CanvasComponent from './canvasComponent'
 import { ChromePicker } from 'react-color'
-import SaveButton from './SaveButton'
 import {Rectangle, Circle, Ellipse, Line, Polyline, CornerBox, Triangle} from 'react-shapes';
+import SaveButton from './SaveButton'
+
 const socket = io();
 
 export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      currentMessage: 'meow',
       shapes: [],
       color: '#333333',
-      startingData: null,
       APILoad: null,
       pickedShape: 'circle',
-      space: false
+      startingData: null
     }
     socket.on('draw', (newDrawState) => this.handleStateChange(newDrawState));
-    this.handleClick = this.handleClick.bind(this)
-    this.handleSpace = this.handleSpace.bind(this)
-    this.pickShape = this.pickShape.bind(this)
-    this.handleColorChange = this.handleColorChange.bind(this)
-    this.getLoad = this.getLoad.bind(this)
-    this.sendLoad = this.sendLoad.bind(this)
-    socket.on('geteverything', this.sendLoad)
+    socket.on('message', (msg) => this.handleMessageChange(msg));
+    socket.on('geteverything', this.sendLoad);
+    this.handleClick = this.handleClick.bind(this);
+    this.pickShape = this.pickShape.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
+    this.getLoad = this.getLoad.bind(this);
+    this.sendLoad = this.sendLoad.bind(this);
   }
   componentWillMount() {
     fetch(`https://dry-fortress-11373.herokuapp.com/api/v1/artworks/${this.props.params.roomId}`)
@@ -45,6 +47,11 @@ export default class App extends React.Component {
     }
     this.setState({
       shapes
+    })
+  }
+  handleMessageChange(msg){
+    this.setState({
+      currentMessage: msg
     })
   }
   sendLoad(){
@@ -81,18 +88,16 @@ export default class App extends React.Component {
       color: color.hex
     })
   }
-  handleSpace(ev){
-    ev.preventDefault();
-    const tmp = this.state.space;
-    const state = !tmp
-    this.setState({
-      space: state
-    })
-  }
   pickShape(event) {
     this.setState({
       pickedShape: event.target.childNodes[0].tagName
     })
+  }
+
+  handleMessage(ev){
+    ev.preventDefault();
+    let newMessage = ev.target.value;
+    socket.emit('message', newMessage);
   }
 
   render () {
@@ -101,6 +106,12 @@ export default class App extends React.Component {
         <h1>You are in room {this.props.params.roomId}</h1>
         <SaveButton roomId={this.props.params.roomId}/>
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/> 
+        <div id="message" onChange = {this.handleMessage}>
+          <form id="messageForm">
+            <input type="text" />
+          </form>
+          {this.state.currentMessage}
+        </div>
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
         <span onClick={(event)=>this.pickShape(event)} id="rectangle">
           <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
