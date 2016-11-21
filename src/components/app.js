@@ -13,7 +13,7 @@ export default class App extends React.Component {
     this.state = {
       currentMessage: 'meow',
       shapes: [],
-      color: '#333333',
+      color: '#995599',
       APILoad: null,
       pickedShape: 'circle',
       startingData: null
@@ -76,22 +76,26 @@ export default class App extends React.Component {
   }
   handleClick(ev){
     ev.preventDefault();
-    socket.emit('draw', [ev.pageX-33, ev.pageY-350, this.state.color]);
-    let shapes = [...this.state.shapes, [ev.pageX-33, ev.pageY-350]]
-    this.setState({
-      shapes
-    })
+    if (ev.ctrlKey) {
+       socket.emit('draw', [ev.clientX, ev.clientY-140, this.state.color]);
+       let shapes = [...this.state.shapes, [ev.clientX, ev.clientY-140]]
+       this.setState({
+         shapes
+       })
+     }
   }
   handleColorChange(color, event) {
     this.setState({
       color: color.hex
     })
   }
+
   pickShape(event) {
     this.setState({
       pickedShape: event.target.childNodes[0].tagName
     })
   }
+
 
   handleMessage(ev){
     ev.preventDefault();
@@ -103,16 +107,17 @@ export default class App extends React.Component {
     return (
       <div id="inroom">
         <h2>Now drawing in: Room {this.props.params.roomId}</h2>
-        <p>To draw, press the ctrl key. Click on the desired shape to draw in that shape. </p> 
+        <p>To draw, press the ctrl key. Click on the desired shape to draw in that shape. </p>
         <SaveButton roomId={this.props.params.roomId}/>
+
         <div className="wrapper">
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/> 
-      <div id="colorposition"> 
-        <div id="message" onChange = {this.handleMessage}>
-          <form id="messageForm">
-            <input type="text" />
-          </form>
-          {this.state.currentMessage}
+        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
+      <div id="colorposition">
+        <div id="message" onKeyUp = {this.handleMessage}>
+          <textarea id="messageForm" rows="2" cols="40" />
+          <div id="current" >
+            {this.state.currentMessage}
+          </div>
         </div>
         Brush color:
         <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
