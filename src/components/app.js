@@ -105,7 +105,9 @@ export default class App extends React.Component {
           <form id="messageForm">
             <input type="text" />
           </form>
-          {this.state.currentMessage}
+          <div id="msgLog" style={{width: 150, height: 40, overflow: scroll}}>
+            {this.state.currentMessage}
+          </div>
         </div>
         <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} />
         <ChromePicker color={this.state.color} onChange={this.handleColorChange} />
