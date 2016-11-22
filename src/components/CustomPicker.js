@@ -6,7 +6,7 @@ class CustomPicker extends React.Component {
  constructor(props){
    super(props)
    this.state = {
-     displayColorPicker: false,
+     displayColorPicker: true,
      color: props.color
    }
    this.handleClick = this.handleClick.bind(this)

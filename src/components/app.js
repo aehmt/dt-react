@@ -122,19 +122,21 @@ export default class App extends React.Component {
           </div>
         </div>
         Brush color:
+        <div>
+          <span onClick={(event)=>this.pickShape(event)} id="rectangle">
+            <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
+          </span>
+          <span onClick={(event)=>this.pickShape(event)} id="circle">
+            <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
+          </span>
+          <span onClick={(event)=>this.pickShape(event)} id="line">
+            <Shapes color={this.state.color} />
+          </span>
+          <span onClick={(event)=>this.pickShape(event)} id="triangle">
+            <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
+          </span>
+        </div>
         <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
-        <span onClick={(event)=>this.pickShape(event)} id="rectangle">
-          <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="circle">
-          <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="line">
-          <Shapes color={this.state.color} />
-        </span>
-        <span onClick={(event)=>this.pickShape(event)} id="triangle">
-          <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-        </span>
       </div>
       </div>
       </div>
