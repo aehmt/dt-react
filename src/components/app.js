@@ -96,7 +96,6 @@ export default class App extends React.Component {
     this.setState({
       pickedShape: event.target.childNodes[0].tagName
     })
-
   }
 
 
@@ -123,7 +122,7 @@ export default class App extends React.Component {
           </div>
         </div>
         Brush color:
-        <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
+        <CustomPicker color={this.state.color} customChange={this.handleColorChange} />
         <span onClick={(event)=>this.pickShape(event)} id="rectangle">
           <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
         </span>
