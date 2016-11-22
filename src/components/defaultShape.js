@@ -56,9 +56,9 @@ export default function DefaultShape(props){
           <div>
             {ctx.beginPath()}
             {ctx.strokeStyle=props.color}
-            {ctx.moveTo(x-20, y-20)}
-            {ctx.lineTo(x-20, y)}
-            {ctx.lineTo(x, y)}
+            {ctx.moveTo(x, y-30)}
+            {ctx.lineTo(x-20, y+10)}
+            {ctx.lineTo(x+20, y+10)}
             {ctx.closePath()}
             {ctx.stroke()}
           </div>
