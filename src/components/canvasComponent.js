@@ -6,17 +6,10 @@ import fetch from 'isomorphic-fetch'
 const CanvasComponent = (props) => { 
     
     var rendered;
+    console.log(props.shapes)
     if (props.shapes.length <= 20) {
-      rendered = props.shapes.map((shape, i) => <DefaultShape xCo={shape[0]} yCo={shape[1]} color={shape[2]} key={i} pickedShape={props.pickedShape}/>)
-    } else {
-      rendered = props.shapes.map((shape, i) => {
-        if (i < props.shapes.length - 20) {
-          return <DefaultShape xCo={shape[0]} yCo={shape[1]} key={i} color={shape[2]} pickedShape={props.pickedShape} />
-        } else {
-          return <DefaultShapeDelete xCo={shape[0]} yCo={shape[1]} key={i} pickedShape={props.pickedShape}/>
-        }
-      })
-    }
+      rendered = props.shapes.map((shape, i) => <DefaultShape xCo={shape[0]} yCo={shape[1]} color={shape[2]} key={i} pickedShape={shape[3]}/>)
+    } 
     return (
       <div id="painting">
         <canvas onMouseMove={props.onMove} id="ourCanvas" width="925" height="500" style={{backgroundColor: '#AAAAAA', borderRadius: 10, borderWidth: 0.5, borderColor: '#d6d7da'}}>
