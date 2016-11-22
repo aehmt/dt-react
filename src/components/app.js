@@ -105,6 +105,23 @@ export default class App extends React.Component {
     socket.emit('message', newMessage);
   }
 
+  chosenShape(){
+    switch (this.state.pickedShape) {
+      case 'rect':
+        return "Square" 
+      case 'circle':
+        return "Circle" 
+      case 'polygon':
+        return "Triangle" 
+      case 'rect':
+        return "Square" 
+      case 'DIV':
+        return "Ninja Star" 
+        break;
+      default:
+    }
+  }
+
   render () {
     return (
       <div id="inroom">
@@ -113,32 +130,32 @@ export default class App extends React.Component {
         <SaveButton roomId={this.props.params.roomId}/>
 
         <div className="wrapper">
-        <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
-      <div id="colorposition">
-        <div id="message" onKeyUp = {this.handleMessage}>
-          <textarea id="messageForm" rows="2" cols="40" />
-          <div id="current" >
-            {this.state.currentMessage}
+          <CanvasComponent onMove={this.handleClick} shapes={this.state.shapes} pickedShape={this.state.pickedShape}/>
+          <div id="colorposition">
+              <div id="message" onKeyUp = {this.handleMessage}>
+                <textarea id="messageForm" placeholder="write your message here" rows="2" cols="40" />
+                <div id="current" >
+                  {this.state.currentMessage}
+                </div>
+              </div>
+              <p>Chosen Shape: {this.chosenShape()}</p>
+              <div>
+                <span onClick={(event)=>this.pickShape(event)} id="rectangle">
+                  <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
+                </span>
+                <span onClick={(event)=>this.pickShape(event)} id="circle">
+                  <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
+                </span>
+                <span onClick={(event)=>this.pickShape(event)} id="line">
+                  <Shapes color={this.state.color} />
+                </span>
+                <span onClick={(event)=>this.pickShape(event)} id="triangle">
+                  <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
+                </span>
+              </div>
+            <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
           </div>
         </div>
-        Brush color:
-        <div>
-          <span onClick={(event)=>this.pickShape(event)} id="rectangle">
-            <Rectangle width={40} height={40} fill={{color:'none'}} stroke={{color: this.state.color}} strokeWidth={2} />
-          </span>
-          <span onClick={(event)=>this.pickShape(event)} id="circle">
-            <Circle r={20} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-          </span>
-          <span onClick={(event)=>this.pickShape(event)} id="line">
-            <Shapes color={this.state.color} />
-          </span>
-          <span onClick={(event)=>this.pickShape(event)} id="triangle">
-            <Triangle width={40} height={40} fill={{color:'none'}} stroke={{color:this.state.color}} strokeWidth={2} />
-          </span>
-        </div>
-        <CustomPicker color={this.state.color} onChange={this.handleColorChange} />
-      </div>
-      </div>
       </div>
     )
   }
