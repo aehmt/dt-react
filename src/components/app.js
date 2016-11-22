@@ -79,10 +79,6 @@ export default class App extends React.Component {
     ev.preventDefault();
     if (ev.ctrlKey) {
        socket.emit('draw', [ev.pageX-20, ev.pageY-340, this.state.color, this.state.pickedShape]);
-       let shapes = [...this.state.shapes, [ev.pageX-20, ev.pageY-340]]
-       this.setState({
-         shapes
-       })
      }
   }
   handleColorChange(color, event) {
