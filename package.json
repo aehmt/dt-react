@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "npm run clean && npm run devbuild && node server.js",
+    "start": "node server.js",
     "clean": "rimraf public",
     "devbuild": "NODE_ENV=development webpack --config ./webpack.dev.config.js --progress --colors"
   },
@@ -43,6 +43,8 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1",
     "lodash": "^4.17.2",
+    "node-sass": "^3.4.2",
+    "react-shapes": "^0.1.0",
     "open": "0.0.5",
     "react": "^0.14.8",
     "react-bootstrap": "^0.30.6",
@@ -52,6 +54,7 @@
     "sass-loader": "^3.2.3",
     "socket.io": "^1.5.1",
     "style-loader": "^0.13.1",
+    "url-loader": "^0.5.6",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2"
